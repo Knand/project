@@ -20,7 +20,7 @@ public class RandomArt
 
 class ArtFrame extends JFrame {
    private JButton newRandomButton;
-   //private static final String VERSION = "Version 1.0";
+   private static final String VERSION = "Version 1.0";
    private RandomFunction random;
    private ArtPanel thePanel;
    private Frame frame;
@@ -31,7 +31,7 @@ class ArtFrame extends JFrame {
      */
     public ArtFrame()
     {
-        setTitle("RandomArt");
+        setTitle("ImageViewer");
         setJMenuBar(makeMenuBar());
 
         //Container contentPane = frame.getContentPane();
@@ -95,27 +95,24 @@ class ArtFrame extends JFrame {
          menu = new JMenu("Help");
         menubar.add(menu);
         
-        /*item = new JMenuItem("About Random Art...");
+        item = new JMenuItem("About Random Art...");
             item.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { showAbout(); }
                            });
-        menu.add(item);*/
+        menu.add(item);
         
         return menubar;
     }
     
-    // menu
-    /**
-     * 'About' function: show the 'about' box.
-     
+    //menu item system
     private void showAbout()
     {
         ArtFrame frame;
-       JOptionPane.showMessageDialog(frame, 
+       JOptionPane.showMessageDialog(thePanel, 
                     "Random Art\n" + VERSION,
                     "About Random Art", 
                     JOptionPane.INFORMATION_MESSAGE);
-    }*/
+    }
     
     /**
      * Quit function: quit the application.
@@ -151,7 +148,7 @@ class ArtPanel extends JPanel   {
         int c = 90;
         Color color = new Color(a,b,c);
         
-        // CS324e students: add and change as necessary
+        
     int z=80;
     int x =0;
        
