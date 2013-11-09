@@ -25,25 +25,26 @@ class ArtFrame extends JFrame {
    private ArtPanel thePanel;
    private Frame frame;
    
+   
     
     /**
-     * Create the Swing frame and its content.
+     * Create the frame and its content.
      */
     public ArtFrame()
     {
-        setTitle("ImageViewer");
+        setTitle("RandomArt");
         setJMenuBar(makeMenuBar());
 
         //Container contentPane = frame.getContentPane();
      
-
-      
+        
+        final Graphics graphics;
         thePanel = new ArtPanel();
         JPanel button = new JPanel();
         button.setLayout(new GridLayout());
         newRandomButton = new JButton("New Random");
         newRandomButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) { random.randomColor(); }
+                               public void actionPerformed(ActionEvent e) {  }
                            }); 
         button.add(newRandomButton);
         
@@ -142,41 +143,50 @@ class ArtFrame extends JFrame {
     {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+         
         
-        
-        
-        
-        
-           
-        for (int i = 0; i < getHeight(); i++) {
-             for (int j = 0; j < getWidth(); j++) {
-        
-            int a = (int) (Math.random()*255);
-            int b = (int) (Math.random()*255);
-            int c = (int) (Math.random()*255);
-            
-            g2.setColor(new Color(a,b,c));
-            g2.drawLine(i, j, 20, 50);
+        for (int j = 0; j < getHeight() ; j++) {
+             for (int i = 0; i < getWidth()  ; i++) {
+           int r = (int) (Math.random()*255);
+           int gr = (int) (Math.random()*255);
+           int b = (int) (Math.random()*255);
             
             
-        
-    
-    
-        
+            
+            g2.setColor(new Color(r,gr,b));
+            
+            g2.fillRect(i,j, 1, 1);
+            
+            
+          
+
+        }
+         
+       }
+    }
+    /*private static int toColor(double val){
+		val += 1.0;
+		if (val < 0) {
+			val *= -1;
+		}
+		val /= 2.0;
+		int col = (int) (val * 255);
+		if (col >= 255) {
+			col = 255;
+		}
+		return col;
+	 } */
+      }
      
-         }
-     } 
-    }
     
-     public void colorPixel(){
-        
-        
-        
-    }
-  }
+    
+
+  
 
 
   class RandomFunction {
+    private static final int MAX_LEVEL = 8;
+      
      public Color randomColor(){
         Random colorbg = new Random();
         Color c1 = new Color(colorbg.nextInt(255),colorbg.nextInt(255),colorbg.nextInt(255)); 
@@ -190,4 +200,17 @@ class ArtFrame extends JFrame {
     private static double mul(double x, double y){
         return (x *y);
     }
-}
+    
+    private static double sin(double x, double y){
+        return (x *y);
+    }
+    
+    private static double sin(double value){
+        return (Math.sin(Math.PI * value));
+    }
+    
+    private static double cos(double value){
+        return (Math.cos(Math.PI * value));
+    }
+   
+  }
