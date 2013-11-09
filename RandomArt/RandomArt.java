@@ -131,7 +131,7 @@ class ArtFrame extends JFrame {
     
 }
 
-class ArtPanel extends JPanel   {
+  class ArtPanel extends JPanel   {
     public static final int SIZE = 600;
     private Color color;
     public ArtPanel(){
@@ -143,44 +143,51 @@ class ArtPanel extends JPanel   {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         
-        int a = 90;
-        int b = 60;
-        int c = 90;
-        Color color = new Color(a,b,c);
         
         
-    int z=80;
-    int x =0;
-       
+        
+        
+           
+        for (int i = 0; i < getHeight(); i++) {
+             for (int j = 0; j < getWidth(); j++) {
+        
+            int a = (int) (Math.random()*255);
+            int b = (int) (Math.random()*255);
+            int c = (int) (Math.random()*255);
+            
+            g2.setColor(new Color(a,b,c));
+            g2.drawLine(i, j, 20, 50);
+            
             
         
-        for(int i=0; i<getWidth()-1;i++){
-            
-            g2.setColor(color);
-            g2.fillRect(0, 0, i, z);
-            z++;
-            
-        }
     
     
         
      
+         }
+     } 
     }
     
-    public void colorPixel(){
+     public void colorPixel(){
         
         
         
     }
-}
+  }
 
 
-class RandomFunction {
+  class RandomFunction {
      public Color randomColor(){
         Random colorbg = new Random();
         Color c1 = new Color(colorbg.nextInt(255),colorbg.nextInt(255),colorbg.nextInt(255)); 
         return c1;
     }
     
+    private static double avg(double x, double y){
+        return (x + y) / 2.0;
+    }
     
+    private static double mul(double x, double y){
+        return (x *y);
+    }
 }
