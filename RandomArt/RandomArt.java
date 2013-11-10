@@ -135,6 +135,8 @@ class ArtFrame extends JFrame {
   class ArtPanel extends JPanel   {
     public static final int SIZE = 600;
     private Color color;
+    private RandomFunction randomFunction;
+    
     public ArtPanel(){
         setPreferredSize(new Dimension(SIZE, SIZE));
     }
@@ -143,15 +145,25 @@ class ArtFrame extends JFrame {
     {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-         
+         RandomFunction randomFunction;
+         float pi = (float)3.14159265359;
         
         for (int j = 0; j < getHeight() ; j++) {
              for (int i = 0; i < getWidth()  ; i++) {
-           int r = (int) (Math.random()*255);
-           int gr = (int) (Math.random()*255);
-           int b = (int) (Math.random()*255);
+           //scale to between -1 and 1
+           float x = (float)(j/getHeight()-0.5)*2 ;
+           float y = (float)(i/getWidth()-0.5)*2 ;
+                 
+                 
+           //float r =  (float) 0.3212123;
+           //float gr = (float) (Math.random()*255 -1);
+           //float b = (float) (Math.random()*255 -1);
             
-            
+           float r = (float)Math.sin(pi * Math.cos(pi * Math.cos(pi * Math.sin(pi * avg(Math.cos(pi * y),y) * Math.sin(pi * x * y )))));
+		   float gr = sin(pi * x / cos(pi * y));
+		   float b = (float)0.7 * sin(pi * x / cos(pi * y));
+			
+			
             
             g2.setColor(new Color(r,gr,b));
             
@@ -164,6 +176,8 @@ class ArtFrame extends JFrame {
          
        }
     }
+    
+    
     /*private static int toColor(double val){
 		val += 1.0;
 		if (val < 0) {
@@ -176,6 +190,17 @@ class ArtFrame extends JFrame {
 		}
 		return col;
 	 } */
+	 
+	  public static float avg(double x, double y){
+        return (float )(x + y) / 2;
+    }
+    public  static float sin(double value){
+        return (float )(Math.sin(Math.PI * value));
+    }
+    
+    public  static float cos(double value){
+        return (float )(Math.cos(Math.PI * value));
+    }
       }
      
     
@@ -193,7 +218,7 @@ class ArtFrame extends JFrame {
         return c1;
     }
     
-    private static double avg(double x, double y){
+    public static double avg(double x, double y){
         return (x + y) / 2.0;
     }
     
@@ -214,3 +239,4 @@ class ArtFrame extends JFrame {
     }
    
   }
+
