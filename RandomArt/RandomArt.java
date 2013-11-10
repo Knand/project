@@ -189,7 +189,7 @@ class ArtFrame extends JFrame {
 			col = 255;
 		}
 		return col;
-	 } */
+	 } *///
 	 
 	  public static float avg(double x, double y){
         return (float )(x + y) / 2;
