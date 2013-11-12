@@ -17,7 +17,6 @@ public class RandomArt
     }
     
 }
-
 class ArtFrame extends JFrame {
    private JButton newRandomButton;
    private static final String VERSION = "Version 1.0";
@@ -151,23 +150,19 @@ class ArtFrame extends JFrame {
         for (int j = 0; j < getHeight() ; j++) {
              for (int i = 0; i < getWidth()  ; i++) {
            //scale to between -1 and 1
-           float x = (float)(j/getHeight()-0.5)*2 ;
-           float y = (float)(i/getWidth()-0.5)*2 ;
+            double x = ((((double) i) / getWidth()) * 2.0) - 1.0;
+		    double y = ((((double) j) / getHeight()) * 2.0) - 1.0;
                  
-                 
-           //float r =  (float) 0.3212123;
-           //float gr = (float) (Math.random()*255 -1);
-           //float b = (float) (Math.random()*255 -1);
-            
-           float r = (float)Math.sin(pi * Math.cos(pi * Math.cos(pi * Math.sin(pi * avg(Math.cos(pi * y),y) * Math.sin(pi * x * y )))));
-		   float gr = sin(pi * x / cos(pi * y));
-		   float b = (float)0.7 * sin(pi * x / cos(pi * y));
+ 
+           double r = sin(pi * avg((((cos(pi * (sin(pi * cos(pi * y)) * avg(avg(x, x), sin(pi * y)))) * avg(sin(pi * (sin(pi * y) * (y * x))), cos(pi * cos(pi * (y * y))))) * sin(pi * (sin(pi * (sin(pi * y) * sin(pi * y))) * cos(pi * ((y * y) * sin(pi * y)))))) * sin(pi * avg(cos(pi * avg(((y * x) * (x * x)), sin(pi * (y * x)))), sin(pi * avg(avg(sin(pi * x), avg(x, x)), sin(pi * avg(x, y))))))), cos(pi * cos(pi * avg(sin(pi * sin(pi * avg((x * x), (x * x)))), sin(pi * sin(pi * sin(pi * sin(pi * y)))))))));
+		   double gr = sin(pi * ((avg(avg(cos(pi * (cos(pi * cos(pi * x)) * (cos(pi * x) * avg(y, x)))), ((cos(pi * cos(pi * y)) * (cos(pi * x) * (x * y))) * sin(pi * sin(pi * avg(y, y))))), cos(pi * (avg(sin(pi * sin(pi * x)), sin(pi * sin(pi * x))) * sin(pi * sin(pi * (x * y)))))) * avg((avg(cos(pi * sin(pi * cos(pi * x))), avg((sin(pi * x) * cos(pi * y)), avg(cos(pi * x), cos(pi * x)))) * avg(avg(sin(pi * cos(pi * x)), sin(pi * sin(pi * x))), (avg(cos(pi * x), avg(y, x)) * avg(sin(pi * y), sin(pi * x))))), (cos(pi * cos(pi * (avg(y, y) * (y * x)))) * cos(pi * cos(pi * sin(pi * avg(x, x))))))) * sin(pi * avg(avg(sin(pi * cos(pi * sin(pi * cos(pi * x)))), avg(sin(pi * cos(pi * cos(pi * y))), ((sin(pi * y) * (x * y)) * cos(pi * (y * y))))), cos(pi * avg(((cos(pi * y) * (y * y)) * avg(sin(pi * y), cos(pi * y))), (((x * x) * avg(y, x)) * cos(pi * sin(pi * x)))))))));
+		   double b = avg(sin(pi * (avg(cos(pi * avg((cos(pi * (x * x)) * cos(pi * (x * y))), avg(avg((x * x), avg(y, y)), avg(cos(pi * y), cos(pi * x))))), avg(avg(avg((sin(pi * y) * (x * y)), sin(pi * (x * x))), avg(((x * x) * sin(pi * y)), (avg(x, x) * sin(pi * y)))), avg((cos(pi * sin(pi * y)) * cos(pi * avg(x, x))), sin(pi * avg(sin(pi * y), sin(pi * y)))))) * cos(pi * avg(avg(avg(sin(pi * (x * x)), avg(sin(pi * y), sin(pi * x))), cos(pi * avg(cos(pi * y), avg(y, x)))), (((avg(x, y) * cos(pi * x)) * cos(pi * avg(y, x))) * avg(cos(pi * (y * x)), ((x * x) * (y * x)))))))), avg(((((sin(pi * sin(pi * avg(x, x))) * avg(avg(sin(pi * y), sin(pi * y)), avg(avg(x, x), cos(pi * y)))) * sin(pi * sin(pi * sin(pi * (y * y))))) * avg(cos(pi * avg(avg(avg(x, y), (y * x)), cos(pi * sin(pi * x)))), (sin(pi * sin(pi * sin(pi * x))) * cos(pi * ((y * y) * cos(pi * x)))))) * avg(cos(pi * cos(pi * sin(pi * cos(pi * avg(x, y))))), (sin(pi * (cos(pi * avg(y, x)) * sin(pi * cos(pi * x)))) * ((sin(pi * cos(pi * y)) * avg(avg(x, x), cos(pi * x))) * avg((sin(pi * x) * avg(y, x)), sin(pi * sin(pi * x))))))), ((cos(pi * cos(pi * (sin(pi * (y * y)) * cos(pi * cos(pi * x))))) * avg(sin(pi * avg(cos(pi * sin(pi * y)), (cos(pi * x) * avg(x, x)))), cos(pi * cos(pi * cos(pi * avg(x, y)))))) * sin(pi * (avg((cos(pi * (y * y)) * cos(pi * sin(pi * y))), avg(((x * x) * sin(pi * x)), cos(pi * sin(pi * y)))) * avg(sin(pi * (avg(y, x) * avg(x, x))), cos(pi * avg((y * y), avg(y, y)))))))));
 			
 			
             
-            g2.setColor(new Color(r,gr,b));
+            g2.setColor(new Color(convertDouble(r),convertDouble(gr),convertDouble(b)));
             
-            g2.fillRect(i,j, 1, 1);
+            g2.fillRect(i, j, 1, 1);
             
             
           
@@ -178,28 +173,28 @@ class ArtFrame extends JFrame {
     }
     
     
-    /*private static int toColor(double val){
-		val += 1.0;
-		if (val < 0) {
-			val *= -1;
+    private static int convertDouble(double value){
+		value += 1.0;
+		if (value < 0) {
+			value *= -1;
 		}
-		val /= 2.0;
-		int col = (int) (val * 255);
-		if (col >= 255) {
-			col = 255;
+		value /= 2.0;
+		int color = (int) (value * 255);
+		if (color >= 255) {
+			color = 255;
 		}
-		return col;
-	 } *///
+		return color;
+	 } 
 	 
-	  public static float avg(double x, double y){
-        return (float )(x + y) / 2;
+	  public static double avg(double x, double y){
+        return (x + y) / 2;
     }
-    public  static float sin(double value){
-        return (float )(Math.sin(Math.PI * value));
+    public  static double sin(double value){
+        return (Math.sin( value));
     }
     
-    public  static float cos(double value){
-        return (float )(Math.cos(Math.PI * value));
+    public  static double cos(double value){
+        return (Math.cos(value));
     }
       }
      
@@ -212,11 +207,7 @@ class ArtFrame extends JFrame {
   class RandomFunction {
     private static final int MAX_LEVEL = 8;
       
-     public Color randomColor(){
-        Random colorbg = new Random();
-        Color c1 = new Color(colorbg.nextInt(255),colorbg.nextInt(255),colorbg.nextInt(255)); 
-        return c1;
-    }
+    
     
     public static double avg(double x, double y){
         return (x + y) / 2.0;
