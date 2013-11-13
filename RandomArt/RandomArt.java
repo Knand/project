@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngine;
+
 
 
 public class RandomArt
@@ -17,11 +20,11 @@ public class RandomArt
     }
     
 }
+
 class ArtFrame extends JFrame {
    private JButton newRandomButton;
    private static final String VERSION = "Version 1.0";
-   private RandomFunction random;
-   private ArtPanel thePanel;
+   private ArtPanel panel;
    private Frame frame;
    
    
@@ -38,7 +41,7 @@ class ArtFrame extends JFrame {
      
         
         final Graphics graphics;
-        thePanel = new ArtPanel();
+        panel = new ArtPanel();
         JPanel button = new JPanel();
         button.setLayout(new GridLayout());
         newRandomButton = new JButton("New Random");
@@ -55,7 +58,7 @@ class ArtFrame extends JFrame {
         flow.add(button);
         
         add(flow, BorderLayout.SOUTH);
-        add(thePanel, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
         
        
         
@@ -108,7 +111,7 @@ class ArtFrame extends JFrame {
     private void showAbout()
     {
         ArtFrame frame;
-       JOptionPane.showMessageDialog(thePanel, 
+       JOptionPane.showMessageDialog(panel, 
                     "Random Art\n" + VERSION,
                     "About Random Art", 
                     JOptionPane.INFORMATION_MESSAGE);
@@ -134,7 +137,7 @@ class ArtFrame extends JFrame {
   class ArtPanel extends JPanel   {
     public static final int SIZE = 600;
     private Color color;
-    private RandomFunction randomFunction;
+    private Functions functions;
     
     public ArtPanel(){
         setPreferredSize(new Dimension(SIZE, SIZE));
@@ -144,22 +147,22 @@ class ArtFrame extends JFrame {
     {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-         RandomFunction randomFunction;
-         float pi = (float)3.14159265359;
+        
+        float pi = (float)3.14159265359;
         
         for (int j = 0; j < getHeight() ; j++) {
              for (int i = 0; i < getWidth()  ; i++) {
            //scale to between -1 and 1
             double x = ((((double) i) / getWidth()) * 2.0) - 1.0;
 		    double y = ((((double) j) / getHeight()) * 2.0) - 1.0;
-                 
- 
+           
+           
            double r = sin(pi * avg((((cos(pi * (sin(pi * cos(pi * y)) * avg(avg(x, x), sin(pi * y)))) * avg(sin(pi * (sin(pi * y) * (y * x))), cos(pi * cos(pi * (y * y))))) * sin(pi * (sin(pi * (sin(pi * y) * sin(pi * y))) * cos(pi * ((y * y) * sin(pi * y)))))) * sin(pi * avg(cos(pi * avg(((y * x) * (x * x)), sin(pi * (y * x)))), sin(pi * avg(avg(sin(pi * x), avg(x, x)), sin(pi * avg(x, y))))))), cos(pi * cos(pi * avg(sin(pi * sin(pi * avg((x * x), (x * x)))), sin(pi * sin(pi * sin(pi * sin(pi * y)))))))));
 		   double gr = sin(pi * ((avg(avg(cos(pi * (cos(pi * cos(pi * x)) * (cos(pi * x) * avg(y, x)))), ((cos(pi * cos(pi * y)) * (cos(pi * x) * (x * y))) * sin(pi * sin(pi * avg(y, y))))), cos(pi * (avg(sin(pi * sin(pi * x)), sin(pi * sin(pi * x))) * sin(pi * sin(pi * (x * y)))))) * avg((avg(cos(pi * sin(pi * cos(pi * x))), avg((sin(pi * x) * cos(pi * y)), avg(cos(pi * x), cos(pi * x)))) * avg(avg(sin(pi * cos(pi * x)), sin(pi * sin(pi * x))), (avg(cos(pi * x), avg(y, x)) * avg(sin(pi * y), sin(pi * x))))), (cos(pi * cos(pi * (avg(y, y) * (y * x)))) * cos(pi * cos(pi * sin(pi * avg(x, x))))))) * sin(pi * avg(avg(sin(pi * cos(pi * sin(pi * cos(pi * x)))), avg(sin(pi * cos(pi * cos(pi * y))), ((sin(pi * y) * (x * y)) * cos(pi * (y * y))))), cos(pi * avg(((cos(pi * y) * (y * y)) * avg(sin(pi * y), cos(pi * y))), (((x * x) * avg(y, x)) * cos(pi * sin(pi * x)))))))));
-		   double b = avg(sin(pi * (avg(cos(pi * avg((cos(pi * (x * x)) * cos(pi * (x * y))), avg(avg((x * x), avg(y, y)), avg(cos(pi * y), cos(pi * x))))), avg(avg(avg((sin(pi * y) * (x * y)), sin(pi * (x * x))), avg(((x * x) * sin(pi * y)), (avg(x, x) * sin(pi * y)))), avg((cos(pi * sin(pi * y)) * cos(pi * avg(x, x))), sin(pi * avg(sin(pi * y), sin(pi * y)))))) * cos(pi * avg(avg(avg(sin(pi * (x * x)), avg(sin(pi * y), sin(pi * x))), cos(pi * avg(cos(pi * y), avg(y, x)))), (((avg(x, y) * cos(pi * x)) * cos(pi * avg(y, x))) * avg(cos(pi * (y * x)), ((x * x) * (y * x)))))))), avg(((((sin(pi * sin(pi * avg(x, x))) * avg(avg(sin(pi * y), sin(pi * y)), avg(avg(x, x), cos(pi * y)))) * sin(pi * sin(pi * sin(pi * (y * y))))) * avg(cos(pi * avg(avg(avg(x, y), (y * x)), cos(pi * sin(pi * x)))), (sin(pi * sin(pi * sin(pi * x))) * cos(pi * ((y * y) * cos(pi * x)))))) * avg(cos(pi * cos(pi * sin(pi * cos(pi * avg(x, y))))), (sin(pi * (cos(pi * avg(y, x)) * sin(pi * cos(pi * x)))) * ((sin(pi * cos(pi * y)) * avg(avg(x, x), cos(pi * x))) * avg((sin(pi * x) * avg(y, x)), sin(pi * sin(pi * x))))))), ((cos(pi * cos(pi * (sin(pi * (y * y)) * cos(pi * cos(pi * x))))) * avg(sin(pi * avg(cos(pi * sin(pi * y)), (cos(pi * x) * avg(x, x)))), cos(pi * cos(pi * cos(pi * avg(x, y)))))) * sin(pi * (avg((cos(pi * (y * y)) * cos(pi * sin(pi * y))), avg(((x * x) * sin(pi * x)), cos(pi * sin(pi * y)))) * avg(sin(pi * (avg(y, x) * avg(x, x))), cos(pi * avg((y * y), avg(y, y)))))))));
-			
-			
-            
+		   double b = avg( sin(pi * (avg(cos(pi * avg((cos(pi * (x * x)) * cos(pi * (x * y))), avg(avg((x * x), avg(y, y)), avg(cos(pi * y), cos(pi * x))))), avg(avg(avg((sin(pi * y) * (x * y)), sin(pi * (x * x))), avg(((x * x) * sin(pi * y)), (avg(x, x) * sin(pi * y)))), avg((cos(pi * sin(pi * y)) * cos(pi * avg(x, x))), sin(pi * avg(sin(pi * y), sin(pi * y)))))) * cos(pi * avg(avg(avg(sin(pi * (x * x)), avg(sin(pi * y), sin(pi * x))), cos(pi * avg(cos(pi * y), avg(y, x)))), (((avg(x, y) * cos(pi * x)) * cos(pi * avg(y, x))) * avg(cos(pi * (y * x)), ((x * x) * (y * x)))))))), avg(((((sin(pi * sin(pi * avg(x, x))) * avg(avg(sin(pi * y), sin(pi * y)), avg(avg(x, x), cos(pi * y)))) * sin(pi * sin(pi * sin(pi * (y * y))))) * avg(cos(pi * avg(avg(avg(x, y), (y * x)), cos(pi * sin(pi * x)))), (sin(pi * sin(pi * sin(pi * x))) * cos(pi * ((y * y) * cos(pi * x)))))) * avg(cos(pi * cos(pi * sin(pi * cos(pi * avg(x, y))))), (sin(pi * (cos(pi * avg(y, x)) * sin(pi * cos(pi * x)))) * ((sin(pi * cos(pi * y)) * avg(avg(x, x), cos(pi * x))) * avg((sin(pi * x) * avg(y, x)), sin(pi * sin(pi * x))))))), ((cos(pi * cos(pi * (sin(pi * (y * y)) * cos(pi * cos(pi * x))))) * avg(sin(pi * avg(cos(pi * sin(pi * y)), (cos(pi * x) * avg(x, x)))), cos(pi * cos(pi * cos(pi * avg(x, y)))))) * sin(pi * (avg((cos(pi * (y * y)) * cos(pi * sin(pi * y))), avg(((x * x) * sin(pi * x)), cos(pi * sin(pi * y)))) * avg(sin(pi * (avg(y, x) * avg(x, x))), cos(pi * avg((y * y), avg(y, y)))))))));
+	       
+	       
+	        
             g2.setColor(new Color(convertDouble(r),convertDouble(gr),convertDouble(b)));
             
             g2.fillRect(i, j, 1, 1);
@@ -204,9 +207,103 @@ class ArtFrame extends JFrame {
   
 
 
-  class RandomFunction {
-    private static final int MAX_LEVEL = 8;
-      
+  class Functions {
+    int randomLevel = (int)(Math.random()*8+1);
+    private String expression;
+    
+    public Functions(){
+        expression = createFunction(randomLevel);
+        }
+    
+    public String createFunction (int levels){
+         // depth of functions less than 8 levels
+        
+        String[]normal = {"x","y","cos","sin","avg"};
+        String[]complex = {"cos","sin","avg"};
+        char coordinate = (char) (new Random().nextInt(2) + 'x');
+        
+        String result = "";
+        
+        
+        if(levels == 1){
+             String value1 = (normal[new Random().nextInt(normal.length)]);
+             
+             if (value1.equals("sin") ||value1.equals("cos")){
+                 result = value1 + "( pi *" + coordinate + ")";
+                }
+             else if(value1.equals("avg")){
+                 result = value1 + "(" + coordinate + "," + coordinate + ")" ;
+             }
+             else{
+                 result = value1 ;
+                }
+        }else{
+                String value = (complex[new Random().nextInt(complex.length)]);
+                if((value.equals("sin") ||value.equals("cos"))&&levels!=0 ){
+                    result = value + "( pi *" + createFunction(levels - 1) + ")";
+                 
+                }
+                 else if(value.equals("avg")&& levels !=0){
+                     result = value +"(" + createFunction (levels - (levels-1)) + "," + createFunction (levels - (levels-1)) + ")" ;
+                 
+                }
+                else if(value.equals("avg")&& levels ==2){
+                    result = value + "(" + createFunction (levels - 1) + "," + coordinate + ")" ;
+                 
+                }
+                else{
+                 result = value ;
+                }
+                
+                
+            }
+            
+            
+            return result; 
+             
+        }
+        
+        public String toString(){
+        return expression;
+    }
+    
+        public double getResult(double x, double y){
+        Stack<Double> operands = new Stack<Double>();
+        
+        for(int i = 0; i < expression.length()-3; i++){
+            String st1 = expression.substring(i,i+1);
+            String st2 = expression.substring(i,i+3);
+            if(st1 == "x") 
+                operands.push(x);
+            else if(st1 == "y")
+                operands.push(y);
+
+                
+            else{
+                // operator
+                double op1 = operands.pop();
+                if(st2 == "sin")
+                    operands.push(Math.sin(Math.PI * op1));
+                else if(st2 == "cos")
+                    operands.push(Math.cos(Math.PI * op1));
+                else if(st1 == "*")
+                    operands.push(op1 * operands.pop());
+                else if (st2 == "avg")
+                    operands.push(avg(op1, operands.pop()));
+                
+            }
+        }
+        assert operands.size() == 1 : operands.size();
+        double result = operands.pop();
+        result = (result < -1.0) ? -1.0 : (result > 1.0) ? 1.0 : result;
+        assert -1.0 <= result && result <= 1.0 : result;
+        return result;
+    }   
+    
+    
+        
+    
+    
     
     
     public static double avg(double x, double y){
@@ -228,6 +325,5 @@ class ArtFrame extends JFrame {
     private static double cos(double value){
         return (Math.cos(Math.PI * value));
     }
-   
+    
   }
-
