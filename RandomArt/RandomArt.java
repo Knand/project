@@ -2,9 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-
 
 
 public class RandomArt
@@ -22,10 +19,9 @@ public class RandomArt
 }
 
 class ArtFrame extends JFrame {
-   private JButton newRandomButton;
    private static final String VERSION = "Version 1.0";
-   private ArtPanel panel;
-   private Frame frame;
+   private ArtPanel artpanel;
+   private JButton newRandomButton, functionsButton;
    
    
     
@@ -37,28 +33,57 @@ class ArtFrame extends JFrame {
         setTitle("RandomArt");
         setJMenuBar(makeMenuBar());
 
-        //Container contentPane = frame.getContentPane();
-     
         
-        final Graphics graphics;
-        panel = new ArtPanel();
+        artpanel = new ArtPanel();
+        
+        //create panel for buttons
         JPanel button = new JPanel();
-        button.setLayout(new GridLayout());
-        newRandomButton = new JButton("New Random");
+        button.setLayout(new FlowLayout());
+        
+        
+       
+        
+        
+           
+        //create new Random button
+        newRandomButton = new JButton();
+        newRandomButton.setIcon(new ImageIcon("rand.png"));
+        newRandomButton.setBorderPainted(false);  
+        newRandomButton.setFocusPainted(false);  
+        newRandomButton.setContentAreaFilled(false);
+         validate();
+        
         newRandomButton.addActionListener(new ActionListener() {
-                               public void actionPerformed(ActionEvent e) {  }
-                           }); 
+                               public void actionPerformed(ActionEvent e) { 
+                              artpanel.repaint();
+                                
+                                
+                                }
+                          }); 
         button.add(newRandomButton);
         
+        //create functions button
+        functionsButton = new JButton();
+        functionsButton.setIcon(new ImageIcon("show.png"));
+        functionsButton.setBorderPainted(false);  
+        functionsButton.setFocusPainted(false);  
+        functionsButton.setContentAreaFilled(false);
+        functionsButton.addActionListener(new ActionListener() {
+                               public void actionPerformed(ActionEvent e) { 
+                              artpanel.showFunctions();
+                                
+                                
+                                }
+                          });
+        button.add(functionsButton);
+        
+       
         
         
         
-         // Add button into panel with flow layout for spacing
-        JPanel flow = new JPanel();
-        flow.add(button);
-        
-        add(flow, BorderLayout.SOUTH);
-        add(panel, BorderLayout.CENTER);
+        //add south panel and artpanel into frame
+        add(button, BorderLayout.SOUTH);
+        add(artpanel, BorderLayout.CENTER);
         
        
         
@@ -69,7 +94,7 @@ class ArtFrame extends JFrame {
         setVisible(true);  
     }
     
-    //menu bar
+    
     /**
      * Create the main frame's menu bar.
      * @param frame   The frame that the menu bar should be added to.
@@ -83,21 +108,22 @@ class ArtFrame extends JFrame {
         JMenuItem item;
 
         
-        // create the File menu
-        JMenu fileMenu = new JMenu("Menu");
-        menubar.add(fileMenu);
+        // create "Menu" menu
+        menu = new JMenu("Menu");
+        menubar.add(menu);
        
-
+        //menu item in "Menu" menu
         JMenuItem quitItem = new JMenuItem("Quit");
             quitItem.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { quit(); }
                            });
-        fileMenu.add(quitItem);
+        menu.add(quitItem);
         
-        // create the Help menu
+        // create "Help" menu
          menu = new JMenu("Help");
         menubar.add(menu);
         
+        //menu item in "Help" menu
         item = new JMenuItem("About Random Art...");
             item.addActionListener(new ActionListener() {
                                public void actionPerformed(ActionEvent e) { showAbout(); }
@@ -107,11 +133,15 @@ class ArtFrame extends JFrame {
         return menubar;
     }
     
-    //menu item system
+    
+    
+     /**
+     * showAbout function: show about the application.
+     */
     private void showAbout()
     {
         ArtFrame frame;
-       JOptionPane.showMessageDialog(panel, 
+       JOptionPane.showMessageDialog(artpanel, 
                     "Random Art\n" + VERSION,
                     "About Random Art", 
                     JOptionPane.INFORMATION_MESSAGE);
@@ -125,22 +155,19 @@ class ArtFrame extends JFrame {
         System.exit(0);
     }
     
-    public Component newBox(){
-        JPanel subbox = new JPanel();
-        
-        
-        return subbox;
-    }
+    
     
 }
 
-  class ArtPanel extends JPanel   {
+ class ArtPanel extends JPanel   {
     public static final int SIZE = 600;
     private Color color;
     private Functions functions;
+    private String  []show = new String[3];
     
     public ArtPanel(){
         setPreferredSize(new Dimension(SIZE, SIZE));
+       
     }
     
     public void paintComponent(Graphics g) 
@@ -148,19 +175,22 @@ class ArtFrame extends JFrame {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         
-        float pi = (float)3.14159265359;
-        
+       Functions rand1 = new Functions();
+       Functions rand2 = new Functions();
+       Functions rand3 = new Functions();
+       
         for (int j = 0; j < getHeight() ; j++) {
              for (int i = 0; i < getWidth()  ; i++) {
            //scale to between -1 and 1
             double x = ((((double) i) / getWidth()) * 2.0) - 1.0;
 		    double y = ((((double) j) / getHeight()) * 2.0) - 1.0;
            
+           //randon functons for red green and blue
+           double r = rand1.getResult(x,y);
+           double gr = rand2.getResult(x,y);
+           double b = rand3.getResult(x,y);
            
-           double r = sin(pi * avg((((cos(pi * (sin(pi * cos(pi * y)) * avg(avg(x, x), sin(pi * y)))) * avg(sin(pi * (sin(pi * y) * (y * x))), cos(pi * cos(pi * (y * y))))) * sin(pi * (sin(pi * (sin(pi * y) * sin(pi * y))) * cos(pi * ((y * y) * sin(pi * y)))))) * sin(pi * avg(cos(pi * avg(((y * x) * (x * x)), sin(pi * (y * x)))), sin(pi * avg(avg(sin(pi * x), avg(x, x)), sin(pi * avg(x, y))))))), cos(pi * cos(pi * avg(sin(pi * sin(pi * avg((x * x), (x * x)))), sin(pi * sin(pi * sin(pi * sin(pi * y)))))))));
-		   double gr = sin(pi * ((avg(avg(cos(pi * (cos(pi * cos(pi * x)) * (cos(pi * x) * avg(y, x)))), ((cos(pi * cos(pi * y)) * (cos(pi * x) * (x * y))) * sin(pi * sin(pi * avg(y, y))))), cos(pi * (avg(sin(pi * sin(pi * x)), sin(pi * sin(pi * x))) * sin(pi * sin(pi * (x * y)))))) * avg((avg(cos(pi * sin(pi * cos(pi * x))), avg((sin(pi * x) * cos(pi * y)), avg(cos(pi * x), cos(pi * x)))) * avg(avg(sin(pi * cos(pi * x)), sin(pi * sin(pi * x))), (avg(cos(pi * x), avg(y, x)) * avg(sin(pi * y), sin(pi * x))))), (cos(pi * cos(pi * (avg(y, y) * (y * x)))) * cos(pi * cos(pi * sin(pi * avg(x, x))))))) * sin(pi * avg(avg(sin(pi * cos(pi * sin(pi * cos(pi * x)))), avg(sin(pi * cos(pi * cos(pi * y))), ((sin(pi * y) * (x * y)) * cos(pi * (y * y))))), cos(pi * avg(((cos(pi * y) * (y * y)) * avg(sin(pi * y), cos(pi * y))), (((x * x) * avg(y, x)) * cos(pi * sin(pi * x)))))))));
-		   double b = avg( sin(pi * (avg(cos(pi * avg((cos(pi * (x * x)) * cos(pi * (x * y))), avg(avg((x * x), avg(y, y)), avg(cos(pi * y), cos(pi * x))))), avg(avg(avg((sin(pi * y) * (x * y)), sin(pi * (x * x))), avg(((x * x) * sin(pi * y)), (avg(x, x) * sin(pi * y)))), avg((cos(pi * sin(pi * y)) * cos(pi * avg(x, x))), sin(pi * avg(sin(pi * y), sin(pi * y)))))) * cos(pi * avg(avg(avg(sin(pi * (x * x)), avg(sin(pi * y), sin(pi * x))), cos(pi * avg(cos(pi * y), avg(y, x)))), (((avg(x, y) * cos(pi * x)) * cos(pi * avg(y, x))) * avg(cos(pi * (y * x)), ((x * x) * (y * x)))))))), avg(((((sin(pi * sin(pi * avg(x, x))) * avg(avg(sin(pi * y), sin(pi * y)), avg(avg(x, x), cos(pi * y)))) * sin(pi * sin(pi * sin(pi * (y * y))))) * avg(cos(pi * avg(avg(avg(x, y), (y * x)), cos(pi * sin(pi * x)))), (sin(pi * sin(pi * sin(pi * x))) * cos(pi * ((y * y) * cos(pi * x)))))) * avg(cos(pi * cos(pi * sin(pi * cos(pi * avg(x, y))))), (sin(pi * (cos(pi * avg(y, x)) * sin(pi * cos(pi * x)))) * ((sin(pi * cos(pi * y)) * avg(avg(x, x), cos(pi * x))) * avg((sin(pi * x) * avg(y, x)), sin(pi * sin(pi * x))))))), ((cos(pi * cos(pi * (sin(pi * (y * y)) * cos(pi * cos(pi * x))))) * avg(sin(pi * avg(cos(pi * sin(pi * y)), (cos(pi * x) * avg(x, x)))), cos(pi * cos(pi * cos(pi * avg(x, y)))))) * sin(pi * (avg((cos(pi * (y * y)) * cos(pi * sin(pi * y))), avg(((x * x) * sin(pi * x)), cos(pi * sin(pi * y)))) * avg(sin(pi * (avg(y, x) * avg(x, x))), cos(pi * avg((y * y), avg(y, y)))))))));
-	       
+           
 	       
 	        
             g2.setColor(new Color(convertDouble(r),convertDouble(gr),convertDouble(b)));
@@ -173,10 +203,28 @@ class ArtFrame extends JFrame {
         }
          
        }
+       //keep function in Array
+       show[0] = rand1.toString();
+       show[1] = rand2.toString();
+       show[2] = rand3.toString();
+    
+    
     }
     
+   
+    public void showFunctions()
+    {
+      
+       JOptionPane.showMessageDialog(new ArtPanel(), 
+                    "Red: " +show[0] +"\nGreen: " +show[1] +"\nBlue: " +show[1],
+                    "Functions", 
+                    JOptionPane.INFORMATION_MESSAGE);
+    }
     
-    private static int convertDouble(double value){
+   /**
+    * value of function convert to int type
+    */
+   private static int convertDouble(double value){
 		value += 1.0;
 		if (value < 0) {
 			value *= -1;
@@ -189,16 +237,6 @@ class ArtFrame extends JFrame {
 		return color;
 	 } 
 	 
-	  public static double avg(double x, double y){
-        return (x + y) / 2;
-    }
-    public  static double sin(double value){
-        return (Math.sin( value));
-    }
-    
-    public  static double cos(double value){
-        return (Math.cos(value));
-    }
       }
      
     
@@ -207,19 +245,27 @@ class ArtFrame extends JFrame {
   
 
 
-  class Functions {
-    int randomLevel = (int)(Math.random()*8+1);
+  
+   /**
+    * create functions by random.  
+    * calculate that function.
+    */
+   class Functions {
+    Random rand = new Random();
+    int randomLevel = rand.nextInt((10 - 2) + 1) + 2;  //levels is between 2 - 10 levels
     private String expression;
+    private String shortFunction;
     
     public Functions(){
         expression = createFunction(randomLevel);
+        shortFunction  = functionShorter(expression);
         }
     
     public String createFunction (int levels){
-         // depth of functions less than 8 levels
+         
         
         String[]normal = {"x","y","cos","sin","avg"};
-        String[]complex = {"cos","sin","avg"};
+        String[]complex = {"cos","sin","avg","tan","sqr"};
         char coordinate = (char) (new Random().nextInt(2) + 'x');
         
         String result = "";
@@ -228,34 +274,37 @@ class ArtFrame extends JFrame {
         if(levels == 1){
              String value1 = (normal[new Random().nextInt(normal.length)]);
              
-             if (value1.equals("sin") ||value1.equals("cos")){
-                 result = value1 + "( pi *" + coordinate + ")";
+             if (value1.equals("sin") ||value1.equals("cos" )||value1.equals("tan" )){
+                 result = value1 + "(pi*" + coordinate + ")";
                 }
-             else if(value1.equals("avg")){
+             else if(value1.equals("avg" )){
                  result = value1 + "(" + coordinate + "," + coordinate + ")" ;
              }
+             
              else{
                  result = value1 ;
                 }
         }else{
                 String value = (complex[new Random().nextInt(complex.length)]);
-                if((value.equals("sin") ||value.equals("cos"))&&levels!=0 ){
-                    result = value + "( pi *" + createFunction(levels - 1) + ")";
+                if((value.equals("sin") ||value.equals("cos") ||value.equals("tan"))&&levels!=0 ){
+                    result = value + "(pi*" + createFunction(levels - 1) + ")";
                  
                 }
-                 else if(value.equals("avg")&& levels !=0){
-                     result = value +"(" + createFunction (levels - (levels-1)) + "," + createFunction (levels - (levels-1)) + ")" ;
+                 else if((value.equals("avg"))&& levels >2  ){ 
+                     result = value +"(" + createFunction  (levels-1) + "," + createFunction (levels-1) + ")" ;
                  
                 }
-                else if(value.equals("avg")&& levels ==2){
-                    result = value + "(" + createFunction (levels - 1) + "," + coordinate + ")" ;
+                else if(value.equals("sqr")&& levels !=0 ){
+                 result = value + "(" + createFunction(levels - 1) + ")";
+                }
+                else if((value.equals("avg"))&& levels ==2 ){
+                    result = value + "(" + coordinate + "," + createFunction (levels - 1) + ")" ;
                  
                 }
                 else{
                  result = value ;
                 }
-                
-                
+        
             }
             
             
@@ -267,29 +316,86 @@ class ArtFrame extends JFrame {
         return expression;
     }
     
-        public double getResult(double x, double y){
-        Stack<Double> operands = new Stack<Double>();
+ 
+     public String functionShorter(String s){
         
-        for(int i = 0; i < expression.length()-3; i++){
-            String st1 = expression.substring(i,i+1);
-            String st2 = expression.substring(i,i+3);
-            if(st1 == "x") 
-                operands.push(x);
-            else if(st1 == "y")
-                operands.push(y);
-
+        Stack<Character> operands = new Stack<Character>();
+        String result = "" ;
+        
+        if(s.length()>2){
+        
+          for(int i = 0 ; i <s.length()-1;i++){
+            char ch = s.charAt(i);
+            char chNext = s.charAt(i+1);
+            
+            
+            if(ch == 'x' ||ch == 'y' ) {
+                operands.push(ch);
+            }
+            else if(ch == 's'&& chNext =='i') {
+                operands.push('S');
+            }else if(ch == 'c'&& chNext =='o') {
+                operands.push('C');
+             }else if(ch == 'a'&& chNext =='v') {
+                operands.push('A');
+            }else if(ch == 's'&& chNext =='q') {
+                operands.push('Q');
+            }else if(ch == 't'&& chNext =='a') {
+                operands.push('T');
+            
+  
+            }
+            else if (ch == ')') {
+               
+                if (operands.peek()=='y'|| operands.peek()=='x'){
+                   result = result + operands.pop() ;
+                }
+               
+                result = result + operands.pop();
                 
+
+               }
+
+                    
+            }
+  
+           while(!operands.isEmpty()){
+                result = result +  operands.pop();
+           }
+
+            return result ;
+        }
+         else {
+           result = s;
+           return result ;
+        }
+        } 
+     
+    
+        
+     public double getResult(double x, double y){
+        Stack<Double> operands = new Stack<Double>();
+        for(int i = 0; i < shortFunction.length(); i++){
+            char ch = shortFunction.charAt(i);
+            if(ch == 'x') 
+                operands.push(x);
+            else if(ch == 'y')
+                operands.push(y);
             else{
-                // operator
+                
                 double op1 = operands.pop();
-                if(st2 == "sin")
+                if(ch == 'S')
                     operands.push(Math.sin(Math.PI * op1));
-                else if(st2 == "cos")
-                    operands.push(Math.cos(Math.PI * op1));
-                else if(st1 == "*")
-                    operands.push(op1 * operands.pop());
-                else if (st2 == "avg")
+                else if(ch == 'C')
+                    operands.push(Math.tan(Math.PI * op1));
+                else if( ch == 'Q')
+                    operands.push(Math.sqrt(Math.abs(op1)));
+                else if (ch == 'A')
                     operands.push(avg(op1, operands.pop()));
+                
+                else if (ch == 'T')
+                    operands.push(Math.tan(Math.PI * op1));
+                    
                 
             }
         }
@@ -298,32 +404,13 @@ class ArtFrame extends JFrame {
         result = (result < -1.0) ? -1.0 : (result > 1.0) ? 1.0 : result;
         assert -1.0 <= result && result <= 1.0 : result;
         return result;
-    }   
+    }
     
-    
-        
-    
-    
-    
-    
-    public static double avg(double x, double y){
+    public double avg(double x, double y){
         return (x + y) / 2.0;
     }
     
-    private static double mul(double x, double y){
-        return (x *y);
-    }
     
-    private static double sin(double x, double y){
-        return (x *y);
-    }
     
-    private static double sin(double value){
-        return (Math.sin(Math.PI * value));
-    }
-    
-    private static double cos(double value){
-        return (Math.cos(Math.PI * value));
-    }
     
   }

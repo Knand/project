@@ -1,17 +1,17 @@
 #BlueJ package file
 package.editor.height=400
 package.editor.width=560
-package.editor.x=351
-package.editor.y=90
+package.editor.x=177
+package.editor.y=42
 package.numDependencies=0
 package.numTargets=1
 package.showExtends=true
 package.showUses=true
 project.charset=UTF-8
-target1.editor.height=700
-target1.editor.width=900
-target1.editor.x=420
-target1.editor.y=58
+target1.editor.height=754
+target1.editor.width=1378
+target1.editor.x=404
+target1.editor.y=65
 target1.height=50
 target1.name=RandomArt
 target1.naviview.expanded=false
