@@ -32,6 +32,9 @@ class ArtFrame extends JFrame {
     {
         setTitle("RandomArt");
         setJMenuBar(makeMenuBar());
+        Image icon = Toolkit.getDefaultToolkit().getImage("banner.png");
+        setIconImage(icon);
+       
         
         //set cursor icon
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -69,6 +72,8 @@ class ArtFrame extends JFrame {
                           }); 
         button.add(newRandomButton);
         
+        
+        
         //create functions button
         functionsButton = new JButton();
         functionsButton.setIcon(new ImageIcon("show.png"));
@@ -99,6 +104,7 @@ class ArtFrame extends JFrame {
         // building is done - arrange the components and show 
         pack();
         setVisible(true);  
+        setLocationRelativeTo(null); //center the window
     }
     
     
@@ -151,7 +157,7 @@ class ArtFrame extends JFrame {
        JOptionPane.showMessageDialog(artpanel, 
                     "Random Art\n" + VERSION,
                     "About Random Art", 
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE,new ImageIcon("aboutRA.png"));
     }
     
     /**
@@ -219,6 +225,9 @@ class ArtFrame extends JFrame {
     }
     
    
+    /**
+     * show the functions of RED GREEN and BLUE in Message Dialog .
+     */
     public void showFunctions()
     {
       
@@ -229,7 +238,7 @@ class ArtFrame extends JFrame {
     }
     
    /**
-    * value of function convert to int type
+    * convert the value of functions to int type.
     */
    private static int convertDouble(double value){
 		value += 1.0;
@@ -254,7 +263,7 @@ class ArtFrame extends JFrame {
 
   
    /**
-    * create functions by random.  
+    * create math functions by random.  
     * calculate that function.
     */
    class Functions {
@@ -268,7 +277,11 @@ class ArtFrame extends JFrame {
         shortFunction  = functionShorter(expression);
         }
     
-    public String createFunction (int levels){
+     /**
+    * create math functions by random.  
+    * output: String 
+    */
+   public String createFunction (int levels){
          
         
         String[]normal = {"x","y","cos","sin","avg"};
@@ -319,12 +332,20 @@ class ArtFrame extends JFrame {
              
         }
         
-        public String toString(){
+        
+    /**
+    * output:  math functions.
+    */
+   public String toString(){
         return expression;
     }
     
  
-     public String functionShorter(String s){
+     /**
+    * input: infix math function.  
+    * output: postfix short math function. 
+    */
+   public String functionShorter(String s){
         
         Stack<Character> operands = new Stack<Character>();
         String result = "" ;
@@ -380,7 +401,12 @@ class ArtFrame extends JFrame {
      
     
         
-     public double getResult(double x, double y){
+       /**
+    * input: x value and y value  .
+    * calculate postfix function. 
+    * output: double result. 
+    */
+        public double getResult(double x, double y){
         Stack<Double> operands = new Stack<Double>();
         for(int i = 0; i < shortFunction.length(); i++){
             char ch = shortFunction.charAt(i);
@@ -413,7 +439,10 @@ class ArtFrame extends JFrame {
         return result;
     }
     
-    public double avg(double x, double y){
+    /**
+     * input : 2 operands
+     * output: average by adding quantities together and then dividing the total by the number of quantities
+     */public double avg(double x, double y){
         return (x + y) / 2.0;
     }
     
