@@ -32,6 +32,13 @@ class ArtFrame extends JFrame {
     {
         setTitle("RandomArt");
         setJMenuBar(makeMenuBar());
+        
+        //set cursor icon
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("cursor.png");
+        Point hotSpot = new Point(0,0);
+        Cursor cursor = toolkit.createCustomCursor(image, hotSpot, "cursor");  
+        setCursor(cursor); 
 
         
         artpanel = new ArtPanel();
@@ -39,7 +46,7 @@ class ArtFrame extends JFrame {
         //create panel for buttons
         JPanel button = new JPanel();
         button.setLayout(new FlowLayout());
-        
+        button.setBackground(new Color(255,254,180));
         
        
         
@@ -218,7 +225,7 @@ class ArtFrame extends JFrame {
        JOptionPane.showMessageDialog(new ArtPanel(), 
                     "Red: " +show[0] +"\nGreen: " +show[1] +"\nBlue: " +show[1],
                     "Functions", 
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE,new ImageIcon("information.png"));
     }
     
    /**
