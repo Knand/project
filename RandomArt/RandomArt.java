@@ -143,6 +143,12 @@ class ArtFrame extends JFrame {
                            });
         menu.add(item);
         
+        item = new JMenuItem("About Math...");
+            item.addActionListener(new ActionListener() {
+                               public void actionPerformed(ActionEvent e) { showMath(); }
+                           });
+        menu.add(item);
+        
         return menubar;
     }
     
@@ -157,6 +163,18 @@ class ArtFrame extends JFrame {
        JOptionPane.showMessageDialog(artpanel, 
                     "Random Art\n" + VERSION,
                     "About Random Art", 
+                    JOptionPane.INFORMATION_MESSAGE,new ImageIcon("aboutRA.png"));
+    }
+    
+    /**
+     * show functions
+     */
+    private void showMath()
+    {
+        ArtFrame frame;
+       JOptionPane.showMessageDialog(artpanel, 
+        " sin = Sine \n cos = Cosine \n tan = Tangent \n avg = Average \n sqr = Square root \n abs = Absolute" 
+                    , "About Math", 
                     JOptionPane.INFORMATION_MESSAGE,new ImageIcon("aboutRA.png"));
     }
     
@@ -232,7 +250,7 @@ class ArtFrame extends JFrame {
     {
       
        JOptionPane.showMessageDialog(new ArtPanel(), 
-                    "Red: " +show[0] +"\nGreen: " +show[1] +"\nBlue: " +show[1],
+                    "Red: " +show[0] +"\nGreen: " +show[1] +"\nBlue: " +show[2],
                     "Functions", 
                     JOptionPane.INFORMATION_MESSAGE,new ImageIcon("information.png"));
     }
@@ -268,7 +286,7 @@ class ArtFrame extends JFrame {
     */
    class Functions {
     Random rand = new Random();
-    int randomLevel = rand.nextInt((10 - 2) + 1) + 2;  //levels is between 2 - 10 levels
+    int randomLevel = rand.nextInt((10 - 4) + 1) + 4;  //the depth levels is between 4 - 10 levels
     private String expression;
     private String shortFunction;
     
@@ -284,14 +302,14 @@ class ArtFrame extends JFrame {
    public String createFunction (int levels){
          
         
-        String[]normal = {"x","y","cos","sin","avg"};
-        String[]complex = {"cos","sin","avg","tan","sqr"};
-        char coordinate = (char) (new Random().nextInt(2) + 'x');
+        String[]normal = {"x","y","cos","sin","avg","sqr","tan","abs"};
+        String[]complex = {"cos","sin","avg","abs"};
+        char coordinate = (char) (new Random().nextInt(2) + 'x'); //random between x and y
         
         String result = "";
         
         
-        if(levels == 1){
+        if(levels ==1){
              String value1 = (normal[new Random().nextInt(normal.length)]);
              
              if (value1.equals("sin") ||value1.equals("cos" )||value1.equals("tan" )){
@@ -300,13 +318,16 @@ class ArtFrame extends JFrame {
              else if(value1.equals("avg" )){
                  result = value1 + "(" + coordinate + "," + coordinate + ")" ;
              }
+             else if(value1.equals("sqr")||value1.equals("abs") ){
+                 result = value1 + "(" + coordinate + ")";
+                }
              
              else{
                  result = value1 ;
                 }
         }else{
                 String value = (complex[new Random().nextInt(complex.length)]);
-                if((value.equals("sin") ||value.equals("cos") ||value.equals("tan"))&&levels!=0 ){
+                if((value.equals("sin") ||value.equals("cos") )&&levels!=0 ){
                     result = value + "(pi*" + createFunction(levels - 1) + ")";
                  
                 }
@@ -314,8 +335,8 @@ class ArtFrame extends JFrame {
                      result = value +"(" + createFunction  (levels-1) + "," + createFunction (levels-1) + ")" ;
                  
                 }
-                else if(value.equals("sqr")&& levels !=0 ){
-                 result = value + "(" + createFunction(levels - 1) + ")";
+                 else if(value.equals("abs") ){
+                 result = value + "(" + createFunction  (levels-1) + ")";
                 }
                 else if((value.equals("avg"))&& levels ==2 ){
                     result = value + "(" + coordinate + "," + createFunction (levels - 1) + ")" ;
@@ -364,6 +385,8 @@ class ArtFrame extends JFrame {
                 operands.push('S');
             }else if(ch == 'c'&& chNext =='o') {
                 operands.push('C');
+            }else if(ch == 'a'&& chNext =='b') {
+                operands.push('B');
              }else if(ch == 'a'&& chNext =='v') {
                 operands.push('A');
             }else if(ch == 's'&& chNext =='q') {
@@ -420,7 +443,9 @@ class ArtFrame extends JFrame {
                 if(ch == 'S')
                     operands.push(Math.sin(Math.PI * op1));
                 else if(ch == 'C')
-                    operands.push(Math.tan(Math.PI * op1));
+                    operands.push(Math.cos(Math.PI * op1));
+                else if(ch == 'B')
+                    operands.push(Math.abs(op1));
                 else if( ch == 'Q')
                     operands.push(Math.sqrt(Math.abs(op1)));
                 else if (ch == 'A')
@@ -441,7 +466,7 @@ class ArtFrame extends JFrame {
     
     /**
      * input : 2 operands
-     * output: average by adding quantities together and then dividing the total by the number of quantities
+     * output: average by adding quantities together and then dividing the total by 2
      */public double avg(double x, double y){
         return (x + y) / 2.0;
     }
