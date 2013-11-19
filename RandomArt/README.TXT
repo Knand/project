@@ -5,8 +5,8 @@ all he/she needs to know. The comments should usually include at least:
 ------------------------------------------------------------------------
 
 PROJECT TITLE: Random Art
-PURPOSE OF PROJECT: craate random art by using java.
-VERSION or DATE:
-HOW TO START THIS PROJECT:
+PURPOSE OF PROJECT: create random art by using java.
+VERSION or DATE: 
+HOW TO START THIS PROJECT: 
 AUTHORS:
 USER INSTRUCTIONS:
